@@ -97,9 +97,27 @@
       });
       if (!any) {
         casesSection.style.display = 'none';
-        var nav = document.querySelector('.nav-link[data-spy="casos"]');
-        if (nav) nav.style.display = 'none';
+        var hidden = document.querySelectorAll('.nav-link[data-spy="casos"], .mobile-menu a[href="#casos"]');
+        Array.prototype.forEach.call(hidden, function (a) { a.style.display = 'none'; });
       }
+    });
+  }
+
+  // ---- Mobile menu toggle ----
+  var menuBtn = document.getElementById('menu-btn');
+  var mobileMenu = document.getElementById('mobile-menu');
+  function setMenu(open) {
+    if (open) mobileMenu.removeAttribute('hidden');
+    else mobileMenu.setAttribute('hidden', '');
+    menuBtn.textContent = open ? '\u00d7 cerrar' : '\u2261 men\u00fa';
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', function () {
+      setMenu(mobileMenu.hasAttribute('hidden'));
+    });
+    Array.prototype.forEach.call(mobileMenu.querySelectorAll('a'), function (a) {
+      a.addEventListener('click', function () { setMenu(false); });
     });
   }
 
